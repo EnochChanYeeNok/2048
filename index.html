@@ -7,6 +7,10 @@
 </head>
 <body>
     <h1>2048 Game</h1>
+    <!-- Score Display -->
+    <div id="score-container">
+        <div>Score: <span id="score">0</span></div>
+    </div>
     <div id="game-container">
         <div id="grid-container">
             <!-- Create 16 grid cells -->
@@ -28,6 +32,9 @@
             <div class="grid-cell" data-index="15"></div>
         </div>
     </div>
+    <!-- Message container for game over message -->
+    <div id="message-container"></div>
+    <button id="restart-button">Restart Game</button>
     <script src="script.js"></script>
 </body>
 </html>

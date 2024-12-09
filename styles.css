@@ -12,13 +12,13 @@ h1 {
 }
 
 #game-container {
-    width: 450px;
+    width: 390px;
     margin: 20px auto;
 }
 
 #grid-container {
-    width: 450px;
-    height: 450px;
+    width: 390px;
+    height: 390px;
     background-color: #bbada0;
     border-radius: 10px;
     padding: 10px;
@@ -28,14 +28,14 @@ h1 {
 }
 
 .grid-cell {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     background-color: #cdc1b4;
     border-radius: 5px;
-    margin: 8px;
-    font-size: 55px;
+    margin: 6px;
+    font-size: 40px;
     font-weight: bold;
-    line-height: 110px;
+    line-height: 80px;
     text-align: center;
     box-sizing: border-box;
     color: #776e65;
@@ -93,4 +93,26 @@ h1 {
 .tile-2048 {
     background-color: #edc22e;
     color: #f9f6f2;
+}
+
+#message-container {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #776e65;
+}
+
+#restart-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#score-container {
+    width: 500px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 24px;
+    color: #776e65;
 }

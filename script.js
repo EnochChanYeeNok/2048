@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const gridCells = document.querySelectorAll('.grid-cell');
+    const messageContainer = document.getElementById('message-container');
+    const scoreDisplay = document.getElementById('score');
     let squares = [];
-    
+    let score = 0;
+
     // Initialize the game board
     function createBoard() {
         for (let i = 0; i < gridCells.length; i++) {
@@ -12,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addNewTile();
         addNewTile();
     }
-    
+
     // Add a new tile (2 or 4) to a random empty cell
     function addNewTile() {
         let emptyCells = squares.filter(cell => cell.innerHTML === '');
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         randomCell.innerHTML = Math.random() < 0.9 ? 2 : 4;
         updateTileClasses();
     }
-    
+
     // Swipe functions
     function moveRight() {
         for (let i = 0; i < 16; i += 4) {
@@ -98,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) * 2;
                 squares[i].innerHTML = combinedTotal;
                 squares[i + 1].innerHTML = '';
+                score += combinedTotal;
+                scoreDisplay.innerHTML = score;
                 updateTileClasses();
             }
         }
@@ -109,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) * 2;
                 squares[i].innerHTML = combinedTotal;
                 squares[i + 4].innerHTML = '';
+                score += combinedTotal;
+                scoreDisplay.innerHTML = score;
                 updateTileClasses();
             }
         }
@@ -134,6 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
         combineRow();
         moveRight();
         addNewTile();
+        updateTileClasses();
+        checkGameOver();
     }
 
     function keyLeft() {
@@ -141,6 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
         combineRow();
         moveLeft();
         addNewTile();
+        updateTileClasses();
+        checkGameOver();
     }
 
     function keyUp() {
@@ -148,6 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         combineColumn();
         moveUp();
         addNewTile();
+        updateTileClasses();
+        checkGameOver();
     }
 
     function keyDown() {
@@ -155,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
         combineColumn();
         moveDown();
         addNewTile();
+        updateTileClasses();
+        checkGameOver();
     }
 
     // Update tile classes based on value
@@ -167,6 +182,53 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Check for game over condition
+    function checkGameOver() {
+        let movesAvailable = false;
+
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].innerHTML === '') {
+                movesAvailable = true;
+                break;
+            }
+            let currentValue = parseInt(squares[i].innerHTML);
+            // Check right neighbor
+            if ((i + 1) % 4 !== 0 && squares[i + 1].innerHTML === squares[i].innerHTML) {
+                movesAvailable = true;
+                break;
+            }
+            // Check below neighbor
+            if (i + 4 < 16 && squares[i + 4].innerHTML === squares[i].innerHTML) {
+                movesAvailable = true;
+                break;
+            }
+        }
+
+        if (!movesAvailable) {
+            // Display 'Game Over' message
+            messageContainer.innerHTML = '<h2>Game Over!</h2>';
+            // Remove event listener to prevent further moves
+            document.removeEventListener('keyup', control);
+        }
+    }
+
+    const restartButton = document.getElementById('restart-button');
+        restartButton.addEventListener('click', restartGame);
+
+        function restartGame() {
+            // Clear the board
+            squares.forEach(cell => {
+                cell.innerHTML = '';
+            });
+            messageContainer.innerHTML = '';
+            // Re-enable key controls
+            document.addEventListener('keyup', control);
+            // Start a new game
+            addNewTile();
+            addNewTile();
+            updateTileClasses();
+        }
 
     createBoard();
 });
